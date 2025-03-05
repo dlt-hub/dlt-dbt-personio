@@ -1,0 +1,280 @@
+version: 2
+sources:
+  - name: raw_data
+    schema: '{{ var ("source_dataset_name") }}'
+    tables:
+      - name: _dlt_loads
+      - name: absence_types
+      - name: absences
+      - name: projects
+      - name: document_categories
+      - name: employees_absences_balance
+      - name: employees
+      - name: employees__absence_entitlement
+  - name: transformed_data
+    schema: '{{ var ("destination_dataset_name") }}'
+    tables:
+      - name: dlt_processed_load_ids
+
+models:
+      - name: dlt_processed_load_ids
+        description: "This table contains all processed load ids for incremental loading"
+      - name: _dlt_loads
+        description: "Created by DLT. Tracks completed loads"
+        columns:
+          - name: load_id
+            tests:
+              - not_null
+          - name: schema_name
+          - name: status
+            tests:
+              - not_null
+          - name: inserted_at
+            tests:
+              - not_null
+          - name: schema_version_hash
+      - name: absence_types
+        columns:
+          - name: id
+            tests:
+              - not_null
+          - name: name
+          - name: unit
+          - name: category
+          - name: approval_required
+          - name: id_v2
+          - name: _dlt_load_id
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+      - name: absences
+        columns:
+          - name: id
+            tests:
+              - not_null
+          - name: status
+          - name: comment
+          - name: start_date
+          - name: end_date
+          - name: days_count
+          - name: half_day_start
+          - name: half_day_end
+          - name: time_off_type__type
+          - name: time_off_type__attributes__id
+          - name: time_off_type__attributes__name
+          - name: time_off_type__attributes__category
+          - name: employee__type
+          - name: employee__attributes__id__label
+          - name: employee__attributes__id__value
+          - name: employee__attributes__id__type
+          - name: employee__attributes__id__universal_id
+          - name: employee__attributes__first_name__label
+          - name: employee__attributes__first_name__value
+          - name: employee__attributes__first_name__type
+          - name: employee__attributes__first_name__universal_id
+          - name: employee__attributes__last_name__label
+          - name: employee__attributes__last_name__value
+          - name: employee__attributes__last_name__type
+          - name: employee__attributes__last_name__universal_id
+          - name: employee__attributes__email__label
+          - name: employee__attributes__email__value
+          - name: employee__attributes__email__type
+          - name: employee__attributes__email__universal_id
+          - name: created_by
+          - name: certificate__status
+          - name: created_at
+          - name: updated_at
+          - name: id_v2
+          - name: _dlt_load_id
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+          - name: days_count__v_double
+      - name: projects
+        columns:
+          - name: id
+            tests:
+              - not_null
+          - name: name
+          - name: active
+          - name: created_at
+          - name: updated_at
+          - name: _dlt_load_id
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+      - name: document_categories
+        columns:
+          - name: id
+            tests:
+              - not_null
+          - name: name
+          - name: _dlt_load_id
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+      - name: employees_absences_balance
+        columns:
+          - name: employee_id
+            tests:
+              - not_null
+          - name: id
+            tests:
+              - not_null
+          - name: name
+          - name: category
+          - name: balance
+          - name: available_balance
+          - name: _dlt_load_id
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+          - name: balance__v_double
+          - name: available_balance__v_double
+      - name: employees
+        columns:
+          - name: id
+            tests:
+              - not_null
+          - name: first_name
+          - name: last_name
+          - name: preferred_name
+          - name: email
+          - name: gender
+          - name: status
+          - name: position
+          - name: employment_type
+          - name: weekly_working_hours
+          - name: termination_type
+          - name: termination_reason
+          - name: created_at
+          - name: last_modified_at
+          - name: holiday_calendar__type
+          - name: holiday_calendar__attributes__id
+          - name: holiday_calendar__attributes__name
+          - name: holiday_calendar__attributes__country
+          - name: work_schedule__type
+          - name: work_schedule__attributes__id
+          - name: work_schedule__attributes__name
+          - name: work_schedule__attributes__monday
+          - name: work_schedule__attributes__tuesday
+          - name: work_schedule__attributes__wednesday
+          - name: work_schedule__attributes__thursday
+          - name: work_schedule__attributes__friday
+          - name: work_schedule__attributes__saturday
+          - name: work_schedule__attributes__sunday
+          - name: fix_salary
+          - name: fix_salary_interval
+          - name: hourly_salary
+          - name: national_insurance_number
+          - name: holder_of_bank_account
+          - name: emergency_contact_name
+          - name: address
+          - name: key_number_id
+          - name: type_of_visa
+          - name: iban
+          - name: emergency_contact_phone_number
+          - name: marital_status
+          - name: city
+          - name: laptop_serial_number
+          - name: trainings
+          - name: employee_id
+          - name: type_of_health_insurance
+          - name: bic
+          - name: postcode
+          - name: emergency_contact_relationship_to_the_employee
+          - name: language_skills
+          - name: name_of_health_insurance
+          - name: personal_email
+          - name: linkedin
+          - name: first_aider
+          - name: main_or_secondary_occupation
+          - name: child_allowance
+          - name: nationality
+          - name: salary_type
+          - name: notice_period
+          - name: occupation_type
+          - name: project_manager
+          - name: mentor
+          - name: _dlt_load_id
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+          - name: supervisor__type
+          - name: supervisor__attributes__id__label
+          - name: supervisor__attributes__id__value
+          - name: supervisor__attributes__id__type
+          - name: supervisor__attributes__id__universal_id
+          - name: supervisor__attributes__first_name__label
+          - name: supervisor__attributes__first_name__value
+          - name: supervisor__attributes__first_name__type
+          - name: supervisor__attributes__first_name__universal_id
+          - name: supervisor__attributes__last_name__label
+          - name: supervisor__attributes__last_name__value
+          - name: supervisor__attributes__last_name__type
+          - name: supervisor__attributes__last_name__universal_id
+          - name: supervisor__attributes__preferred_name__label
+          - name: supervisor__attributes__preferred_name__value
+          - name: supervisor__attributes__preferred_name__type
+          - name: supervisor__attributes__preferred_name__universal_id
+          - name: supervisor__attributes__email__label
+          - name: supervisor__attributes__email__value
+          - name: supervisor__attributes__email__type
+          - name: supervisor__attributes__email__universal_id
+          - name: hire_date
+          - name: probation_period_end
+          - name: subcompany__type
+          - name: subcompany__attributes__id
+          - name: subcompany__attributes__name
+          - name: office__type
+          - name: office__attributes__id
+          - name: office__attributes__name
+          - name: department__type
+          - name: department__attributes__id
+          - name: department__attributes__name
+          - name: work_schedule__attributes__valid_from
+          - name: profile_picture
+          - name: team__type
+          - name: team__attributes__id
+          - name: team__attributes__name
+          - name: date_of_birth
+          - name: contract_end_date
+          - name: visa_expiry_date
+      - name: employees__absence_entitlement
+        columns:
+          - name: type
+          - name: attributes__id
+          - name: attributes__name
+          - name: attributes__category
+          - name: attributes__entitlement
+          - name: _dlt_root_id
+            tests:
+              - not_null
+          - name: _dlt_parent_id
+            tests:
+              - not_null
+          - name: _dlt_list_idx
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique

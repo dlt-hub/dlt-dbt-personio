@@ -1,0 +1,45 @@
+/* Table: absences */
+{{
+    config(
+        materialized='incremental'
+    )
+}}
+SELECT
+    t.id,
+    t.status,
+    t.comment,
+    t.start_date,
+    t.end_date,
+    t.days_count,
+    t.half_day_start,
+    t.half_day_end,
+    t.time_off_type__type,
+    t.time_off_type__attributes__id,
+    t.time_off_type__attributes__name,
+    t.time_off_type__attributes__category,
+    t.employee__type,
+    t.employee__attributes__id__label,
+    t.employee__attributes__id__value,
+    t.employee__attributes__id__type,
+    t.employee__attributes__id__universal_id,
+    t.employee__attributes__first_name__label,
+    t.employee__attributes__first_name__value,
+    t.employee__attributes__first_name__type,
+    t.employee__attributes__first_name__universal_id,
+    t.employee__attributes__last_name__label,
+    t.employee__attributes__last_name__value,
+    t.employee__attributes__last_name__type,
+    t.employee__attributes__last_name__universal_id,
+    t.employee__attributes__email__label,
+    t.employee__attributes__email__value,
+    t.employee__attributes__email__type,
+    t.employee__attributes__email__universal_id,
+    t.created_by,
+    t.certificate__status,
+    t.created_at,
+    t.updated_at,
+    t.id_v2,
+    t._dlt_load_id,
+    t._dlt_id,
+    t.days_count__v_double,
+FROM  {{ ref('stg_absences') }} as t
